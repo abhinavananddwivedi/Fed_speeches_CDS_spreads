@@ -209,24 +209,27 @@ model_T3_C3_A_summary <- summary(model_T3_C3_A, vcov = vcovDC)
 
 ### Panel B
 
-data_panel_T3_gov <- data_panel_T3 %>% dplyr::filter(Position == 'Governor')
+data_panel_T3_chair <- data_panel_T3 %>%
+  dplyr::filter(Position == 'Chairman' | Position == 'Chair')
+
+set.seed(123)
 
 # T3 C1
 formula_T3_C1_B <- formula_change_spread_macro
 model_T3_C1_B <- plm::plm(formula = formula_T3_C1_B, 
-                          data = data_panel_T3_gov, 
+                          data = data_panel_T3_chair, 
                           model = 'within', effect = 'individual')
 model_T3_C1_B_summary <- summary(model_T3_C1_B, vcov = vcovBS)
 
 # T3 C2
 formula_T3_C2_B <- formula_change_spread_fin
-model_T3_C2_B <- plm::plm(formula = formula_T3_C2_B, data = data_panel_T3_gov, 
+model_T3_C2_B <- plm::plm(formula = formula_T3_C2_B, data = data_panel_T3_chair, 
                           model = 'within', effect = 'individual')
 model_T3_C2_B_summary <- summary(model_T3_C2_B, vcov = vcovBS)
 
 # T3 C3
 formula_T3_C3_B <- formula_change_spread_macrofin
-model_T3_C3_B <- plm::plm(formula = formula_T3_C3_A, data = data_panel_T3_gov, 
+model_T3_C3_B <- plm::plm(formula = formula_T3_C3_A, data = data_panel_T3_chair, 
                           model = 'within', effect = 'individual')
 model_T3_C3_B_summary <- summary(model_T3_C3_B, vcov = vcovBS)
 
@@ -279,6 +282,8 @@ setTxtProgressBar(pb, 4)
 
 ########## Panel A
 
+#set.seed(123)
+
 # Read Table 4 Panel A data
 Table4_A = readr::read_csv('data_table_4_PA.csv')  %>%
   dplyr::select(country, year_quarter, everything()) %>%
@@ -303,10 +308,13 @@ model_T4_C1_A <- plm::plm(formula = formula_T4_C1_A, data = data_panel_T4_A,
                         model = 'within', effect = 'individual')
 model_T4_C1_A_summary <- summary(model_T4_C1_A, vcov = vcovDC)
 
+
+
 # T4 C2
 formula_T4_C2_A <- formula_CDS_spread_crossborder_controls
 model_T4_C2_A <- plm::plm(formula = formula_T4_C2_A, data = data_panel_T4_A,
                         model = 'within', effect = 'individual')
+set.seed(123)
 model_T4_C2_A_summary <- summary(model_T4_C2_A, vcov = vcovBS)
 
 ############ Panel B
